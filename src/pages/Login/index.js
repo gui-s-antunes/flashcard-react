@@ -6,7 +6,7 @@ import { get } from 'lodash';
 
 import * as actions from '../../store/modules/auth/actions';
 import { Container } from '../../styles/GlobalStyles';
-import { Form } from './styled';
+import { Form, Title } from './styled';
 
 import Loading from '../../components/Loading';
 
@@ -35,7 +35,7 @@ export default function Login(props) {
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <h1>Log into your account</h1>
+      <Title>Log into your account</Title>
       <Form onSubmit={handleSubmit}>
         <label htmlFor="email">
           <input

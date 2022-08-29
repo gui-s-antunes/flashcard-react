@@ -25,7 +25,7 @@ export default function Decks() {
 
   const handleDeckDelete = (e, deckId, deckName, index) => {
     if (!window.confirm(`Do you want to delete deck ${deckName}?`)) return;
-    console.log('deletar');
+    console.log('deletar', index);
   };
   return (
     <Container>

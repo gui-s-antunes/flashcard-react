@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Container } from '../../styles/GlobalStyles';
-import { Form } from './styled';
+import { Form, Title } from './styled';
 
 import Loading from '../../components/Loading';
 import * as actions from '../../store/modules/auth/actions';
@@ -73,14 +73,14 @@ export default function Register() {
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <h1>{id ? 'Edit your account here' : 'Register a new account here'}</h1>
+      <Title>{id ? 'Edit your account' : 'Register a new account'}</Title>
       <Form onSubmit={handleSubmit}>
         <label htmlFor="name">
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Insert a username with a range of 3 to 255 characters..."
+            placeholder="Insert a username..."
           />
         </label>
         <label htmlFor="email">
@@ -96,7 +96,7 @@ export default function Register() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Insert a password with a range of 6 to 50 characters..."
+            placeholder="Insert a password..."
           />
         </label>
         <button type="submit">
