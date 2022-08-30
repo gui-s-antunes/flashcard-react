@@ -1,7 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { FaHome, FaUserAlt, FaSignInAlt, FaPowerOff } from 'react-icons/fa';
+import {
+  FaHome,
+  FaUserAlt,
+  FaSignInAlt,
+  FaPowerOff,
+  FaClipboardList,
+} from 'react-icons/fa';
 
 import { Nav } from './styled';
 import history from '../../services/history';
@@ -24,9 +30,14 @@ export default function Header() {
         <FaHome size={24} />
       </Link>
       {isLoggedIn ? (
-        <Link onClick={handleLogout} to="/logout">
-          <FaPowerOff size={24} />
-        </Link>
+        <>
+          <Link to="/decks">
+            <FaClipboardList size={24} />
+          </Link>
+          <Link onClick={handleLogout} to="/logout">
+            <FaPowerOff size={24} />
+          </Link>
+        </>
       ) : (
         <Link to="/login">
           <FaUserAlt size={24} />

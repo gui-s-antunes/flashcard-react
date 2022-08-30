@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaTrash, FaEdit } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 import { Container } from '../../styles/GlobalStyles';
-import {} from './styled';
+import { AddDeck } from './styled';
 import Loading from '../../components/Loading';
 import axios from '../../services/axios';
 
@@ -11,6 +12,7 @@ export default function Decks() {
   // Pegar decks do usuário antes
   const [decks, setDecks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [newDeck, setNewDeck] = useState('');
 
   useEffect(() => {
     async function getData() {
@@ -27,6 +29,21 @@ export default function Decks() {
     if (!window.confirm(`Do you want to delete deck ${deckName}?`)) return;
     console.log('deletar', index);
   };
+
+  const handleCreateDeck = () => {
+    const formErrors = [];
+
+    if (newDeck.length < 1 || newDeck.length > 100)
+      formErrors.push('Create a new deck with a range of 1 to 100 characters!');
+
+    if (formErrors.length) {
+      formErrors.forEach((error) => toast.error(error));
+      return;
+    }
+
+    if (!window.confirm(`Do you want to create deck '${newDeck}?'`)) return;
+    console.log('criar', newDeck);
+  };
   return (
     <Container>
       {/*
@@ -37,6 +54,19 @@ export default function Decks() {
       */}
       <Loading isLoading={isLoading} />
       <h1>Deck</h1>
+      <AddDeck>
+        <label htmlFor="newDeck">
+          <input
+            type="text"
+            value={newDeck}
+            onChange={(e) => setNewDeck(e.target.value)}
+            placeholder="Create a new Deck here..."
+          />
+        </label>
+        <button type="button" onClick={handleCreateDeck}>
+          Create
+        </button>
+      </AddDeck>
       {decks
         ? decks.map((deck, index) => (
             <div key={deck.id}>
