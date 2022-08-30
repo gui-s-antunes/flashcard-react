@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { isEmail } from 'validator';
 import { toast } from 'react-toastify';
-import { get } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Container } from '../../styles/GlobalStyles';
@@ -10,14 +9,11 @@ import { Form, Title } from './styled';
 import Loading from '../../components/Loading';
 import * as actions from '../../store/modules/auth/actions';
 
-import axios from '../../services/axios';
-import history from '../../services/history';
-
 export default function Register() {
   const id = useSelector((state) => state.auth.user.id);
   const emailStored = useSelector((state) => state.auth.user.email);
   const nameStored = useSelector((state) => state.auth.user.name);
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.auth.isLoading);
 
   const dispatch = useDispatch();
 
@@ -51,23 +47,6 @@ export default function Register() {
     }
 
     dispatch(actions.registerRequest({ name, email, password, id }));
-
-    try {
-      setIsLoading(true);
-      await axios.post('/users/', {
-        name,
-        password,
-        email,
-      });
-
-      toast.success('User has been registered!');
-      history.push('/login');
-      setIsLoading(false);
-    } catch (err) {
-      setIsLoading(false);
-      const errors = get(err, 'response.data.errors', []);
-      errors.map((error) => toast.error(error));
-    }
   }
 
   return (
