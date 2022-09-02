@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { get } from 'lodash';
 
 import { Container } from '../../styles/GlobalStyles';
 import { AddDeck } from './styled';
@@ -12,28 +13,56 @@ export default function Decks() {
   // Pegar decks do usuário antes
   const [decks, setDecks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [newDeck, setNewDeck] = useState('');
+  const [name, setName] = useState('');
 
   useEffect(() => {
     async function getData() {
       setIsLoading(true);
       const response = await axios.get('/decks');
-      console.log(response.data);
       setDecks(response.data);
       setIsLoading(false);
     }
     getData();
   }, []);
 
-  const handleDeckDelete = (e, deckId, deckName, index) => {
-    if (!window.confirm(`Do you want to delete deck ${deckName}?`)) return;
-    console.log('deletar', index);
+  const handleDeckDelete = async (e, deckId, deckName, index) => {
+    if (
+      !window.confirm(
+        `Do you want to delete deck '${deckName}'? All its cards are to be deleted too, are you sure?`
+      )
+    )
+      return;
+
+    try {
+      setIsLoading(true);
+      await axios.delete(`/decks/${deckId}`);
+      toast.success(`Deck '${deckName}' has been delete for good!`);
+      setIsLoading(false);
+      const newDecks = [...decks];
+      newDecks.splice(index, 1);
+      setDecks(newDecks);
+    } catch (err) {
+      setIsLoading(false);
+      // const status = get(err, 'response.status', 0);
+      const data = get(err, 'response.data', {});
+      const errors = get(data, 'errors', []);
+
+      if (errors.length > 0) {
+        errors.map((error) => toast.error(error));
+      } else {
+        toast.error('Erro desconhecido');
+      }
+    }
+
+    // if (decks[deckId].Cards.length > 0) {
+    //   toast.error('O Deck possui Cards. Mova ou exclua as Cards antes!');
+    // }
   };
 
-  const handleCreateDeck = () => {
+  const handleCreateDeck = async () => {
     const formErrors = [];
 
-    if (newDeck.length < 1 || newDeck.length > 100)
+    if (name.length < 1 || name.length > 100)
       formErrors.push('Create a new deck with a range of 1 to 100 characters!');
 
     if (formErrors.length) {
@@ -41,8 +70,29 @@ export default function Decks() {
       return;
     }
 
-    if (!window.confirm(`Do you want to create deck '${newDeck}?'`)) return;
-    console.log('criar', newDeck);
+    if (!window.confirm(`Do you want to create deck '${name}?'`)) return;
+
+    try {
+      setIsLoading(true);
+      const { data } = await axios.post('/decks/', { name });
+      toast.success(`Deck '${name}' criado!`);
+      setIsLoading(false);
+
+      const newDecks = [...decks];
+      newDecks.unshift(data);
+      setDecks(newDecks);
+    } catch (err) {
+      setIsLoading(false);
+      // const status = get(err, 'response.status', 0);
+      const data = get(err, 'response.data', {});
+      const errors = get(data, 'errors', []);
+
+      if (errors.length > 0) {
+        errors.map((error) => toast.error(error));
+      } else {
+        toast.error('Erro desconhecido');
+      }
+    }
   };
   return (
     <Container>
@@ -55,11 +105,11 @@ export default function Decks() {
       <Loading isLoading={isLoading} />
       <h1>Deck</h1>
       <AddDeck>
-        <label htmlFor="newDeck">
+        <label htmlFor="name">
           <input
             type="text"
-            value={newDeck}
-            onChange={(e) => setNewDeck(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Create a new Deck here..."
           />
         </label>
