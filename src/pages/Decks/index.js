@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaTrash, FaEdit } from 'react-icons/fa';
+import { FaTrashAlt, FaPencilAlt, FaPlus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { get } from 'lodash';
 
 import { Container } from '../../styles/GlobalStyles';
-import { AddDeck } from './styled';
+import { AddDeck, Title, DecksStyle, UserDeck } from './styled';
 import Loading from '../../components/Loading';
 import axios from '../../services/axios';
 
@@ -103,7 +103,7 @@ export default function Decks() {
       No início ou outro lugar, opção de inserir novo deck
       */}
       <Loading isLoading={isLoading} />
-      <h1>Deck</h1>
+      <Title>Deck</Title>
       <AddDeck>
         <label htmlFor="name">
           <input
@@ -114,29 +114,31 @@ export default function Decks() {
           />
         </label>
         <button type="button" onClick={handleCreateDeck}>
-          Create
+          <FaPlus size={16} />
         </button>
       </AddDeck>
-      {decks
-        ? decks.map((deck, index) => (
-            <div key={deck.id}>
-              <div>
-                <span>{deck.name}</span>
-                <FaTrash
-                  size={36}
-                  onClick={(e) =>
-                    handleDeckDelete(e, deck.id, deck.name, index)
-                  }
-                  to={`/deck/${deck.id}/delete`}
-                />
+      <DecksStyle>
+        {decks
+          ? decks.map((deck, index) => (
+              <div key={deck.id}>
+                <UserDeck>
+                  <span>{deck.name}</span>
+                  <FaTrashAlt
+                    size={16}
+                    onClick={(e) =>
+                      handleDeckDelete(e, deck.id, deck.name, index)
+                    }
+                    to={`/deck/${deck.id}/delete`}
+                  />
 
-                <Link to={`/deck/${deck.id}/edit`}>
-                  <FaEdit size={36} />
-                </Link>
+                  <Link to={`/deck/${deck.id}/edit`}>
+                    <FaPencilAlt size={16} />
+                  </Link>
+                </UserDeck>
               </div>
-            </div>
-          ))
-        : 'There is no decks yet, create a new one right up there!'}
+            ))
+          : 'There is no decks yet, create a new one right up there!'}
+      </DecksStyle>
     </Container>
   );
 }
