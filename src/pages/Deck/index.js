@@ -43,6 +43,14 @@ export default function Deck({ match }) {
     getDeck();
   }, [id]);
 
+  useEffect(() => {
+    if (isEmpty(cardShow)) return;
+
+    const reg = /(\d{4})-(\d{2})-(\d{2})/;
+    const nextStudy = cardShow.next_study;
+    cardShow.next_study = nextStudy.replace(reg, '$3/$2/$1');
+  }, [cardShow]);
+
   const handleEditDeckName = async () => {
     if (name.length < 1) return;
     if (!window.confirm(`Do you want to rename this deck as '${name}?'`))
@@ -118,6 +126,10 @@ export default function Deck({ match }) {
             <CardShowStyle>
               <p>Back</p>
               <div>{cardShow.back}</div>
+            </CardShowStyle>
+            <CardShowStyle>
+              <p>Next Study (dd/mm/yyyy)</p>
+              <div>{cardShow.next_study}</div>
             </CardShowStyle>
             <Link to={`/card/${cardShow.id}/edit`}>
               <button type="button">Edit Card</button>
