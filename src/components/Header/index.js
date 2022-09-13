@@ -7,6 +7,7 @@ import {
   FaSignInAlt,
   FaPowerOff,
   FaClipboardList,
+  FaBookOpen,
 } from 'react-icons/fa';
 
 import { Nav } from './styled';
@@ -33,6 +34,9 @@ export default function Header() {
         <>
           <Link to="/decks">
             <FaClipboardList size={24} />
+          </Link>
+          <Link to="/card">
+            <FaBookOpen size={24} />
           </Link>
           <Link onClick={handleLogout} to="/logout">
             <FaPowerOff size={24} />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { get, isEmpty } from 'lodash';
 import Select from 'react-select';
@@ -9,8 +10,15 @@ import Loading from '../../components/Loading';
 import { configureSelectOptions } from '../../utils/configure-select-options';
 
 import { Container } from '../../styles/GlobalStyles';
-import { Title, CardContainer, CardStyle } from './styled';
+import {
+  Title,
+  CardCreationContainer,
+  CardContainer,
+  CardStyle,
+  NoDecksContainer,
+} from './styled';
 import history from '../../services/history';
+import { formatDateToBd } from '../../utils/format-date-to-bd';
 
 export default function Card({ match }) {
   const id = get(match, 'params.id', '');
@@ -122,6 +130,8 @@ export default function Card({ match }) {
     console.log('front: ', front);
     console.log('back: ', back);
 
+    console.log('data: ', formatDateToBd(new Date()));
+
     try {
       if (id && deckId) {
         setIsLoading(true);
@@ -134,7 +144,18 @@ export default function Card({ match }) {
         toast.success('Card has been edited successfully!');
         history.push(`/card/${id}/${chosedOption.value}/edit`);
       } else {
-        //
+        setIsLoading(true);
+        const studyDate = formatDateToBd(new Date());
+        const { data } = await axios.post(`/cards/${chosedOption.value}`, {
+          front,
+          back,
+          study_date: studyDate,
+          current_count_study: 0,
+          next_study: studyDate,
+        });
+        setIsLoading(false);
+        toast.success('Card has been created successfully!');
+        history.push(`/card/${data.id}/${chosedOption.value}/edit`);
       }
     } catch (err) {
       const data = get(err, 'response.data', {});
@@ -147,6 +168,11 @@ export default function Card({ match }) {
       }
     }
   };
+
+  useEffect(() => {
+    console.log('select options: ', selectOptions);
+    console.log('deck: ', deck);
+  }, [selectOptions, deck]);
 
   return (
     // Edit:
@@ -161,39 +187,52 @@ export default function Card({ match }) {
       <Title>
         {id && deckId ? 'Edit your Card here!' : 'Create a new Card!'}
       </Title>
-      {selectOptions && !isEmpty(deck) ? (
-        <Select
-          defaultValue={{
-            value: deck.id,
-            label: deck.name,
-          }}
-          // defaultValue={chosedOption}
-          options={selectOptions}
-          onChange={(option) => handleChoseOption(option)}
-          noOptionsMessage="You need to create a Deck yet!"
-        />
-      ) : null}
-      <CardContainer>
-        <CardStyle>
-          <p>Front Side</p>
-          <textarea
-            value={front}
-            onChange={(e) => setFront(e.target.value)}
-            placeholder="Type Card's front side here..."
+      {selectOptions.length > 0 ? (
+        <CardCreationContainer>
+          <Select
+            defaultValue={
+              !isEmpty(deck)
+                ? {
+                    value: deck.id,
+                    label: deck.name,
+                  }
+                : null
+            }
+            // defaultValue={chosedOption}
+            options={selectOptions}
+            onChange={(option) => handleChoseOption(option)}
+            noOptionsMessage="You need to create a Deck yet!"
           />
-        </CardStyle>
-        <CardStyle>
-          <p>Back Side</p>
-          <textarea
-            value={back}
-            onChange={(e) => setBack(e.target.value)}
-            placeholder="Type Card's back side here..."
-          />
-        </CardStyle>
-      </CardContainer>
-      <button type="button" onClick={handleSaveCard}>
-        {id && deckId ? 'Edit' : 'Create'}
-      </button>
+          <CardContainer>
+            <CardStyle>
+              <p>Front Side</p>
+              <textarea
+                value={front}
+                onChange={(e) => setFront(e.target.value)}
+                placeholder="Type Card's front side here..."
+              />
+            </CardStyle>
+            <CardStyle>
+              <p>Back Side</p>
+              <textarea
+                value={back}
+                onChange={(e) => setBack(e.target.value)}
+                placeholder="Type Card's back side here..."
+              />
+            </CardStyle>
+          </CardContainer>
+          <button type="button" onClick={handleSaveCard}>
+            {id && deckId ? 'Edit' : 'Create'}
+          </button>
+        </CardCreationContainer>
+      ) : (
+        <NoDecksContainer>
+          <p>You need to create a Deck before starting your Card Creation!</p>
+          <Link to="/decks">
+            <button type="button">Create a Deck!</button>
+          </Link>
+        </NoDecksContainer>
+      )}
     </Container>
   );
 }

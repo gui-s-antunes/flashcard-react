@@ -8,6 +8,21 @@ export const Title = styled.h1`
 `;
 
 export const CardCreationContainer = styled.div``;
+export const NoDecksContainer = styled.div`
+  p {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  button {
+    width: 100%;
+    transition: filter 300ms;
+  }
+
+  button:hover {
+    filter: brightness(70%);
+  }
+`;
 
 export const CardContainer = styled.div`
   /* max-width: 360px;
