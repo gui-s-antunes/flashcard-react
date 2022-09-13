@@ -25,7 +25,7 @@ export default function Routes() {
       <MyRoute exact path="/deck/:id/edit" component={Deck} isClosed />
       <MyRoute exact path="/decks/" component={Decks} isClosed />
       <MyRoute exact path="/card/" component={Card} isClosed />
-      <MyRoute exact path="/card/:id/edit" component={Card} isClosed />
+      <MyRoute exact path="/card/:id/:deck_id/edit" component={Card} isClosed />
       <MyRoute exact path="/revise/:id" component={Revise} isClosed={false} />
       <MyRoute path="*" component={Page404} />
     </Switch>

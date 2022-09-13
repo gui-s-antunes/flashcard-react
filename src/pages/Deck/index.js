@@ -131,7 +131,7 @@ export default function Deck({ match }) {
               <p>Next Study (dd/mm/yyyy)</p>
               <div>{cardShow.next_study}</div>
             </CardShowStyle>
-            <Link to={`/card/${cardShow.id}/edit`}>
+            <Link to={`/card/${cardShow.id}/${deck.id}/edit`}>
               <button type="button">Edit Card</button>
             </Link>
           </div>
