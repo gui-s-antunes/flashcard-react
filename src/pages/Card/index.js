@@ -40,9 +40,7 @@ export default function Card({ match }) {
     async function getCard() {
       setIsLoading(true);
       const { data } = await axios.get(`/cards/${id}/${deckId}`);
-      // console.log(data);
       setCard(data);
-      // console.log(card);
       setIsLoading(false);
     }
 
@@ -54,32 +52,23 @@ export default function Card({ match }) {
     async function getDecks() {
       setIsLoading(true);
       const { data } = await axios.get(`/decks/`);
-      // console.log(data);
       setDecks(data);
-      // console.log(decks);
       setIsLoading(false);
     }
     getDecks();
   }, [deckId]);
 
   useEffect(() => {
-    // console.log('decks', decks);
     if (isEmpty(decks)) return;
     setDeck(
       decks
         .filter((deckz) => {
-          console.log(deckz.id);
           return deckz.id === Number(deckId);
         })
         .find((obj) => !isEmpty(obj))
     );
     setSelectOptions(configureSelectOptions(decks));
-  }, [decks]);
-
-  // useEffect(() => {
-  //   if (isEmpty(chosedOption)) return;
-  //   console.log('chosedOptions value', chosedOption.value);
-  // }, [chosedOption]);
+  }, [decks, deckId]);
 
   useEffect(() => {
     setFront(card.front);
@@ -93,10 +82,6 @@ export default function Card({ match }) {
       label: deck.name,
     });
   }, [deck]);
-
-  // const handleSubmit = () => {
-  //   //
-  // };
 
   const handleChoseOption = (option) => {
     setChosedOptions(option);
@@ -126,12 +111,6 @@ export default function Card({ match }) {
       return;
     }
 
-    // console.log('passou');
-    // console.log('front: ', front);
-    // console.log('back: ', back);
-
-    // console.log('data: ', formatDateToBd(new Date()));
-
     try {
       if (id && deckId) {
         setIsLoading(true);
@@ -145,9 +124,7 @@ export default function Card({ match }) {
         history.push(`/card/${id}/${chosedOption.value}/edit`);
       } else {
         setIsLoading(true);
-        // const studyDate = formatDateToBd(new Date());
         const studyDate = new Date();
-        // console.log('studyDate: ', studyDate);
         const { data } = await axios.post(`/cards/${chosedOption.value}`, {
           front,
           back,
@@ -171,19 +148,7 @@ export default function Card({ match }) {
     }
   };
 
-  useEffect(() => {
-    // console.log('select options: ', selectOptions);
-    // console.log('deck: ', deck);
-  }, [selectOptions, deck]);
-
   return (
-    // Edit:
-    // Alterar Deck, Deletar Card
-    // Alterar Front e Back
-
-    // Create:
-    // Escolher Deck
-    // Preencher Front e Back
     <Container>
       <Loading isLoading={isLoading} />
       <Title>
@@ -200,7 +165,6 @@ export default function Card({ match }) {
                   }
                 : null
             }
-            // defaultValue={chosedOption}
             options={selectOptions}
             onChange={(option) => handleChoseOption(option)}
             noOptionsMessage="You need to create a Deck yet!"

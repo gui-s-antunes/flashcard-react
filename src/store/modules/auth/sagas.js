@@ -8,19 +8,15 @@ import history from '../../../services/history';
 
 function* loginRequest({ payload }) {
   try {
-    console.log('entrou loginrequest try');
     const response = yield call(axios.post, '/tokens', payload);
     yield put(actions.loginSuccess({ ...response.data }));
 
     toast.success('You have been logged successfully!');
 
-    console.log(`token loginrequest: ${response.data.token}`);
-
     axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
 
     history.push(payload.prevPath);
   } catch (e) {
-    console.log('entrou loginrequest catch');
     toast.error('You inserted an invalid email or password!');
     yield put(actions.loginFailure());
   }
@@ -28,7 +24,6 @@ function* loginRequest({ payload }) {
 
 function persistRehydrate({ payload }) {
   const token = get(payload, 'auth.token', '');
-  console.log(`token persistRehydrate: ${token}`);
   if (!token) return;
   axios.defaults.headers.Authorization = `Bearer ${token}`;
 }
@@ -58,7 +53,6 @@ function* registerRequest({ payload }) {
       yield put(actions.registerCreatedSuccess({ name, email, password }));
       history.push('/login');
     }
-    console.log('hadas');
   } catch (e) {
     const errors = get(e, 'response.data.errors', []);
     const status = get(e, 'response.status', 0);

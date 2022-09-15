@@ -34,7 +34,6 @@ export default function Deck({ match }) {
       // fazer try catch
       setIsLoading(true);
       const { data } = await axios.get(`/decks/${id}`);
-      console.log('data ', data);
       setDeck(data);
       setName(data.name);
       setIsLoading(false);
@@ -75,9 +74,7 @@ export default function Deck({ match }) {
     }
   };
 
-  const handleShowCard = (e, card, index) => {
-    console.log('card info: ', card);
-    console.log('index info: ', index);
+  const handleShowCard = (e, card) => {
     setCardShow(card);
   };
 
@@ -104,11 +101,11 @@ export default function Deck({ match }) {
 
         <CardListStyle>
           {deck && deck.Cards
-            ? deck.Cards.map((card, index) => (
+            ? deck.Cards.map((card) => (
                 <div key={card.id}>
                   <CardStyle>
                     <span>{card.front}</span>
-                    <FaEye onClick={(e) => handleShowCard(e, card, index)} />
+                    <FaEye onClick={(e) => handleShowCard(e, card)} />
                   </CardStyle>
                 </div>
               ))

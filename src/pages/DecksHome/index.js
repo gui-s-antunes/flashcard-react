@@ -16,15 +16,13 @@ export default function DecksHome() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log(decks.length);
     if (decks.length > 0) return;
 
     async function getDecks() {
       setIsLoading(true);
       const { data } = await axios.get('/decks');
-      console.log(data);
       setDecks(data);
-      console.log(decks);
+
       setIsLoading(false);
     }
 
@@ -36,11 +34,6 @@ export default function DecksHome() {
 
     setDecksWithStudy(getDecksWithStudy(decks));
   }, [decks]);
-
-  useEffect(() => {
-    console.log(decksWithStudy.length);
-    console.log(decksWithStudy);
-  }, [decksWithStudy]);
 
   return (
     <Container>
