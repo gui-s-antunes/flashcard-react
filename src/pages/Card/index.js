@@ -18,7 +18,7 @@ import {
   NoDecksContainer,
 } from './styled';
 import history from '../../services/history';
-import { formatDateToBd } from '../../utils/format-date-to-bd';
+// import { formatDateToBd } from '../../utils/format-date-to-bd';
 
 export default function Card({ match }) {
   const id = get(match, 'params.id', '');
@@ -40,9 +40,9 @@ export default function Card({ match }) {
     async function getCard() {
       setIsLoading(true);
       const { data } = await axios.get(`/cards/${id}/${deckId}`);
-      console.log(data);
+      // console.log(data);
       setCard(data);
-      console.log(card);
+      // console.log(card);
       setIsLoading(false);
     }
 
@@ -54,16 +54,16 @@ export default function Card({ match }) {
     async function getDecks() {
       setIsLoading(true);
       const { data } = await axios.get(`/decks/`);
-      console.log(data);
+      // console.log(data);
       setDecks(data);
-      console.log(decks);
+      // console.log(decks);
       setIsLoading(false);
     }
     getDecks();
   }, [deckId]);
 
   useEffect(() => {
-    console.log('decks', decks);
+    // console.log('decks', decks);
     if (isEmpty(decks)) return;
     setDeck(
       decks
@@ -126,11 +126,11 @@ export default function Card({ match }) {
       return;
     }
 
-    console.log('passou');
-    console.log('front: ', front);
-    console.log('back: ', back);
+    // console.log('passou');
+    // console.log('front: ', front);
+    // console.log('back: ', back);
 
-    console.log('data: ', formatDateToBd(new Date()));
+    // console.log('data: ', formatDateToBd(new Date()));
 
     try {
       if (id && deckId) {
@@ -145,7 +145,9 @@ export default function Card({ match }) {
         history.push(`/card/${id}/${chosedOption.value}/edit`);
       } else {
         setIsLoading(true);
-        const studyDate = formatDateToBd(new Date());
+        // const studyDate = formatDateToBd(new Date());
+        const studyDate = new Date();
+        // console.log('studyDate: ', studyDate);
         const { data } = await axios.post(`/cards/${chosedOption.value}`, {
           front,
           back,
@@ -170,8 +172,8 @@ export default function Card({ match }) {
   };
 
   useEffect(() => {
-    console.log('select options: ', selectOptions);
-    console.log('deck: ', deck);
+    // console.log('select options: ', selectOptions);
+    // console.log('deck: ', deck);
   }, [selectOptions, deck]);
 
   return (
