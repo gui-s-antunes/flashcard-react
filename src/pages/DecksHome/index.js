@@ -37,6 +37,11 @@ export default function DecksHome() {
     setDecksWithStudy(getDecksWithStudy(decks));
   }, [decks]);
 
+  useEffect(() => {
+    console.log(decksWithStudy.length);
+    console.log(decksWithStudy);
+  }, [decksWithStudy]);
+
   return (
     <Container>
       <Loading isLoading={isLoading} />
