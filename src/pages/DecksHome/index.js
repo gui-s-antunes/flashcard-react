@@ -13,7 +13,6 @@ import { Title, DecksStyle, UserDeck } from './styled';
 export default function DecksHome() {
   const [decks, setDecks] = useState([]);
   const [decksWithStudy, setDecksWithStudy] = useState([]);
-  // const [cardsToStudy, setCardsToStudy] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -37,12 +36,6 @@ export default function DecksHome() {
 
     setDecksWithStudy(getDecksWithStudy(decks));
   }, [decks]);
-
-  // useEffect(() => {
-  //   if(isEmpty(decksWithStudy)) return;
-
-  //   setCardsToStudy()
-  // }, [decksWithStudy])
 
   return (
     <Container>
