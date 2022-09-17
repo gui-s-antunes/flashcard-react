@@ -42,14 +42,6 @@ export default function Deck({ match }) {
     getDeck();
   }, [id]);
 
-  useEffect(() => {
-    if (isEmpty(cardShow)) return;
-
-    const reg = /(\d{4})-(\d{2})-(\d{2})/;
-    const nextStudy = cardShow.next_study;
-    cardShow.next_study = nextStudy.replace(reg, '$3/$2/$1');
-  }, [cardShow]);
-
   const handleEditDeckName = async () => {
     if (name.length < 1) return;
     if (!window.confirm(`Do you want to rename this deck as '${name}?'`))
@@ -75,7 +67,11 @@ export default function Deck({ match }) {
   };
 
   const handleShowCard = (e, card) => {
-    setCardShow(card);
+    const reg = /(\d{4})-(\d{2})-(\d{2})/;
+    const newCardShow = { ...card };
+    const nextStudy = newCardShow.next_study;
+    newCardShow.next_study = nextStudy.replace(reg, '$3/$2/$1');
+    setCardShow(newCardShow);
   };
 
   return (
