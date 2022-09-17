@@ -21,7 +21,7 @@ export default function Routes() {
       <MyRoute exact path="/" component={DecksHome} isClosed />
       <MyRoute exact path="/login/" component={Login} isClosed={false} />
       <MyRoute exact path="/register/" component={Register} isClosed={false} />
-      <MyRoute exact path="/deck/" component={Deck} isClosed />
+      {/* <MyRoute exact path="/deck/" component={Deck} isClosed /> */}
       <MyRoute exact path="/deck/:id/edit" component={Deck} isClosed />
       <MyRoute exact path="/decks/" component={Decks} isClosed />
       <MyRoute exact path="/card/" component={Card} isClosed />

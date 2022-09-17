@@ -7,7 +7,17 @@ export const Title = styled.h1`
   margin-bottom: 15px;
 `;
 
-export const CardCreationContainer = styled.div``;
+export const CardCreationContainer = styled.div`
+  button {
+    width: 100%;
+    transition: filter 300ms;
+  }
+
+  button:hover {
+    filter: brightness(70%);
+  }
+`;
+
 export const NoDecksContainer = styled.div`
   p {
     margin-bottom: 10px;
@@ -67,5 +77,17 @@ export const CardStyle = styled.div`
     color: #efefef;
     padding: 10px;
     width: 100%;
+  }
+`;
+
+export const DeleteBtn = styled.div`
+  button {
+    margin-top: 5px;
+    width: 100%;
+    transition: filter 300ms;
+  }
+
+  button:hover {
+    filter: brightness(70%);
   }
 `;

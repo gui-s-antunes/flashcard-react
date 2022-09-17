@@ -16,6 +16,7 @@ import {
   CardContainer,
   CardStyle,
   NoDecksContainer,
+  DeleteBtn,
 } from './styled';
 import history from '../../services/history';
 // import { formatDateToBd } from '../../utils/format-date-to-bd';
@@ -137,6 +138,30 @@ export default function Card({ match }) {
         history.push(`/card/${data.id}/${chosedOption.value}/edit`);
       }
     } catch (err) {
+      setIsLoading(false);
+      const data = get(err, 'response.data', {});
+      const errors = get(data, 'errors', []);
+
+      if (errors.length > 0) {
+        errors.map((error) => toast.error(error));
+      } else {
+        toast.error('Erro desconhecido');
+      }
+    }
+  };
+
+  const handleDeleteCard = async () => {
+    if (!id || !deckId) return;
+    if (!window.confirm(`Do you want to delete this card for good?`)) return;
+
+    try {
+      setIsLoading(true);
+      await axios.delete(`/cards/${id}/${deckId}`);
+      setIsLoading(false);
+      toast.success('Card has been deleted. Returned to deck page');
+      history.push(`/deck/${deckId}/edit`);
+    } catch (err) {
+      setIsLoading(false);
       const data = get(err, 'response.data', {});
       const errors = get(data, 'errors', []);
 
@@ -187,7 +212,7 @@ export default function Card({ match }) {
               />
             </CardStyle>
           </CardContainer>
-          <button type="button" onClick={handleSaveCard}>
+          <button type="button" onClick={() => handleSaveCard()}>
             {id && deckId ? 'Edit' : 'Create'}
           </button>
         </CardCreationContainer>
@@ -199,6 +224,13 @@ export default function Card({ match }) {
           </Link>
         </NoDecksContainer>
       )}
+      {id && deckId ? (
+        <DeleteBtn>
+          <button type="button" onClick={() => handleDeleteCard()}>
+            Delete this Card
+          </button>
+        </DeleteBtn>
+      ) : null}
     </Container>
   );
 }
