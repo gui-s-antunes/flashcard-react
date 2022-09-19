@@ -16,8 +16,6 @@ export default function DecksHome() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (decks.length > 0) return;
-
     async function getDecks() {
       setIsLoading(true);
       const { data } = await axios.get('/decks');
@@ -27,7 +25,7 @@ export default function DecksHome() {
     }
 
     getDecks();
-  }, [decks]);
+  }, []);
 
   useEffect(() => {
     if (isEmpty(decks)) return;
