@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import { get, isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
 
@@ -18,8 +18,8 @@ import { getCardsToStudy } from '../../utils/get-cards-to-study';
 import { setNextStudy } from '../../utils/set-next-study';
 import { addDaysToDate } from '../../utils/add-days-to-date';
 
-export default function Revise({ match }) {
-  const id = get(match, 'params.id', '');
+export default function Revise() {
+  const { id } = useParams();
   const studyPosition = 0;
   const [isLoading, setIsLoading] = useState(false);
 
@@ -176,7 +176,3 @@ export default function Revise({ match }) {
     </Container>
   );
 }
-
-Revise.propTypes = {
-  match: PropTypes.shape({}).isRequired,
-};

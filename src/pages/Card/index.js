@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+// import PropTypes from 'prop-types';
 import { get, isEmpty } from 'lodash';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
@@ -18,12 +18,10 @@ import {
   NoDecksContainer,
   DeleteBtn,
 } from './styled';
-import history from '../../services/history';
-// import { formatDateToBd } from '../../utils/format-date-to-bd';
 
-export default function Card({ match }) {
-  const id = get(match, 'params.id', '');
-  const deckId = get(match, 'params.deck_id', '');
+export default function Card() {
+  const navigate = useNavigate();
+  const { id, deck_id: deckId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
 
   const [card, setCard] = useState({});
@@ -122,7 +120,8 @@ export default function Card({ match }) {
         });
         setIsLoading(false);
         toast.success('Card has been edited successfully!');
-        history.push(`/card/${id}/${chosedOption.value}/edit`);
+        // history.push(`/card/${id}/${chosedOption.value}/edit`);
+        navigate(`/card/${id}/${chosedOption.value}/edit`);
       } else {
         setIsLoading(true);
         const studyDate = new Date();
@@ -135,7 +134,8 @@ export default function Card({ match }) {
         });
         setIsLoading(false);
         toast.success('Card has been created successfully!');
-        history.push(`/card/${data.id}/${chosedOption.value}/edit`);
+        // history.push(`/card/${data.id}/${chosedOption.value}/edit`);
+        navigate(`/card/${data.id}/${chosedOption.value}/edit`);
       }
     } catch (err) {
       setIsLoading(false);
@@ -159,7 +159,8 @@ export default function Card({ match }) {
       await axios.delete(`/cards/${id}/${deckId}`);
       setIsLoading(false);
       toast.success('Card has been deleted. Returned to deck page');
-      history.push(`/deck/${deckId}/edit`);
+      // history.push(`/deck/${deckId}/edit`);
+      navigate(`/deck/${deckId}/edit`);
     } catch (err) {
       setIsLoading(false);
       const data = get(err, 'response.data', {});
@@ -235,6 +236,6 @@ export default function Card({ match }) {
   );
 }
 
-Card.propTypes = {
-  match: PropTypes.shape({}).isRequired,
-};
+// Card.propTypes = {
+//   match: PropTypes.shape({}).isRequired,
+// };

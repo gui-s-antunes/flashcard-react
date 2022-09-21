@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { isEmail } from 'validator';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { Container } from '../../styles/GlobalStyles';
 import { Form, Title } from './styled';
@@ -16,6 +17,7 @@ export default function Register() {
   const isLoading = useSelector((state) => state.auth.isLoading);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -46,7 +48,7 @@ export default function Register() {
       return;
     }
 
-    dispatch(actions.registerRequest({ name, email, password, id }));
+    dispatch(actions.registerRequest({ name, email, password, id, navigate }));
   }
 
   return (

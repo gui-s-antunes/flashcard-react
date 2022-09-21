@@ -4,7 +4,6 @@ import { get } from 'lodash';
 import * as types from '../types';
 import * as actions from './actions';
 import axios from '../../../services/axios';
-import history from '../../../services/history';
 
 function* loginRequest({ payload }) {
   try {
@@ -15,7 +14,7 @@ function* loginRequest({ payload }) {
 
     axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
 
-    history.push(payload.prevPath);
+    payload.navigate(payload.prevPath);
   } catch (e) {
     toast.error('You inserted an invalid email or password!');
     yield put(actions.loginFailure());
@@ -51,7 +50,7 @@ function* registerRequest({ payload }) {
 
       toast.success('You have been successfuly created a user!');
       yield put(actions.registerCreatedSuccess({ name, email, password }));
-      history.push('/login');
+      payload.navigate('/login');
     }
   } catch (e) {
     const errors = get(e, 'response.data.errors', []);
@@ -60,7 +59,7 @@ function* registerRequest({ payload }) {
     if (status === 401) {
       toast.error('You must log into your account again...');
       yield put(actions.loginFailure());
-      return history.push('/login');
+      return payload.navigate('/login');
     }
 
     if (errors.length > 0) {

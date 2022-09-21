@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-// import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FaReply, FaEye } from 'react-icons/fa';
 import { get, isEmpty } from 'lodash';
-import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
 // import { Container } from '../../styles/GlobalStyles';
@@ -18,8 +16,8 @@ import {
 import Loading from '../../components/Loading';
 import axios from '../../services/axios';
 
-export default function Deck({ match }) {
-  const id = get(match, 'params.id', '');
+export default function Deck() {
+  const { id } = useParams();
   const [deck, setDeck] = useState([]);
   const [name, setName] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -134,7 +132,3 @@ export default function Deck({ match }) {
     </>
   );
 }
-
-Deck.propTypes = {
-  match: PropTypes.shape({}).isRequired,
-};

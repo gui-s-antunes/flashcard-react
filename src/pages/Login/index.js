@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { isEmail } from 'validator';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { get } from 'lodash';
 
 import * as actions from '../../store/modules/auth/actions';
@@ -10,10 +11,12 @@ import { Form, Title } from './styled';
 
 import Loading from '../../components/Loading';
 
-export default function Login(props) {
+export default function Login() {
   const isLoading = useSelector((state) => state.auth.isLoading);
-  const prevPath = get(props, 'location.state.prevPath', '/');
+  const { state } = useLocation();
+  const prevPath = get(state, 'prevPath', '/');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -30,7 +33,7 @@ export default function Login(props) {
       return;
     }
 
-    dispatch(actions.loginRequest({ email, password, prevPath }));
+    dispatch(actions.loginRequest({ email, password, prevPath, navigate }));
   }
   return (
     <Container>
