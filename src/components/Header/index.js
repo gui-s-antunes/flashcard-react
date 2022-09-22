@@ -29,27 +29,35 @@ export default function Header() {
     <Nav>
       <Link to="/">
         <FaHome size={24} />
+        <p>Home</p>
       </Link>
       {isLoggedIn ? (
         <>
           <Link to="/decks">
             <FaClipboardList size={24} />
+            <p>Decks</p>
           </Link>
           <Link to="/card">
             <FaBookOpen size={24} />
+            <p>Card</p>
           </Link>
           <Link onClick={handleLogout} to="/logout">
             <FaPowerOff size={24} />
+            <p>Logout</p>
           </Link>
         </>
       ) : (
-        <Link to="/login">
-          <FaUserAlt size={24} />
-        </Link>
+        <>
+          <Link to="/login">
+            <FaUserAlt size={24} />
+            <p>Login</p>
+          </Link>
+          <Link to="/register">
+            <FaSignInAlt size={24} />
+            <p>Register</p>
+          </Link>
+        </>
       )}
-      <Link to="/register">
-        <FaSignInAlt size={24} />
-      </Link>
     </Nav>
   );
 }
