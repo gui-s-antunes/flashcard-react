@@ -72,7 +72,7 @@ export const CardStyle = styled.div`
 
   textarea {
     resize: none;
-    border: none;
+    border: 1px solid ${primaryColor};
     background-color: ${primaryDarkColor};
     color: #efefef;
     padding: 10px;

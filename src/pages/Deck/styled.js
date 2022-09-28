@@ -8,8 +8,8 @@ export const DeckBackgroud = styled.div``;
 export const LocalContainer = styled.section`
   max-width: 360px;
   max-height: 70vh;
-  background-color: #fff;
-  margin: 30px auto;
+  background-color: ${primaryDarkColor};
+  margin: 15px auto;
   padding: 30px;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -98,16 +98,21 @@ export const CardStyle = styled.div`
 
 export const CardShowContainer = styled.div`
   max-width: 360px;
-  background-color: #fff;
+  background-color: ${primaryDarkColor};
   margin: 30px auto;
   padding: 30px;
   border-radius: 4px;
+  border: 1px solid ${primaryColor};
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   h1 {
     margin-bottom: 15px;
     text-align: center;
     color: ${primaryColor};
+  }
+
+  button {
+    width: 100%;
   }
 `;
 
@@ -127,7 +132,8 @@ export const CardShowStyle = styled.div`
     color: white;
     background-color: ${primaryDarkColor};
     padding: 10px;
-    border-bottom-left-radius: 7px;
-    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: 1px solid ${primaryColor};
   }
 `;

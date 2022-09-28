@@ -35,8 +35,9 @@ export const CardShowStyle = styled.div`
     color: white;
     background-color: ${primaryDarkColor};
     padding: 10px;
-    border-bottom-left-radius: 7px;
-    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: 1px solid ${primaryColor};
   }
 `;
 

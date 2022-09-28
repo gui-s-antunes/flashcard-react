@@ -10,6 +10,7 @@ export const DecksStyle = styled.div`
   margin: 20px 0 0 0;
   display: flex;
   flex-direction: column;
+  color: #fff;
 `;
 
 export const UserDeck = styled.div`
@@ -26,6 +27,7 @@ export const UserDeck = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    color: ${primaryDarkColor};
     /* width: 100px; */
   }
 

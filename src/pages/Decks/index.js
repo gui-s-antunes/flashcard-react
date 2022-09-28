@@ -103,7 +103,7 @@ export default function Decks() {
       No início ou outro lugar, opção de inserir novo deck
       */}
       <Loading isLoading={isLoading} />
-      <Title>Deck</Title>
+      <Title>Decks Management</Title>
       <AddDeck>
         <label htmlFor="name">
           <input
